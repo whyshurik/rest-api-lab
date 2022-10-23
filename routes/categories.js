@@ -2,7 +2,7 @@ const entities = require('../entities/entities.js')
 const express = require('express');
 const router = express.Router();
 
-/* GET users listing. */
+
 router.post('/addcategory', function(req, res, next) {
     if (!req.body.id){
         return res.send('no id provided')
