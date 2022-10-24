@@ -1,9 +1,8 @@
-const entities = require('../entities/entities.js')
-const express = require('express');
-const router = express.Router();
+import * as entities from "../database/entities/entities"
+import {Router} from "express"
+const router:Router = Router();
 
-
-router.post('/addrecord', function(req, res, next) {
+router.post('/addrecord', function(req, res) {
     if (!req.body.id){
         return res.send('no id provided')
     }
@@ -20,17 +19,17 @@ router.post('/addrecord', function(req, res, next) {
     entities.records.add(obj)
     res.send('records respond with a resource');
 });
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
     res.send(JSON.stringify([...entities.records]));
 });
-router.get('/getuser/:userid', function(req, res, next) {
-    const userdata = Array.from(entities.records).filter((record) => record.userId == req.params.userid);
+router.get('/getuser/:userid', function(req, res) {
+    const userdata = Array.from(entities.records).filter((record:any) => record.userId === req.params.userid);
     res.send(JSON.stringify(userdata));
 });
-router.get('/getcategory', function(req, res, next) {
+router.get('/getcategory', function(req, res) {
     const userid = req.query.userid;
     const categoryid = req.query.categoryid;
-    const userdata = Array.from(entities.records).filter((record) => record.userId == userid && record.categoryId == categoryid);
+    const userdata = Array.from(entities.records).filter((record:any) => record.userId === userid && record.categoryId === categoryid);
     res.send(JSON.stringify(userdata));
 });
-module.exports = router;
+export {router}
