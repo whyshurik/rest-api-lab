@@ -6,7 +6,7 @@ import {
     PrimaryGeneratedColumn,
 } from 'typeorm';
 import {UsersEntity} from "./user.entity";
-
+``
 @Entity({name: 'balance'})
 export class BalanceEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
@@ -15,7 +15,7 @@ export class BalanceEntity extends BaseEntity{
     @Column({name: 'money', type: 'money'})
     name: number;
 
-    @ManyToOne(() => UsersEntity)
+    @ManyToOne(() => UsersEntity, (user) => user.balance)
     @JoinColumn()
     user: UsersEntity;
 

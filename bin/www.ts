@@ -1,8 +1,12 @@
 #!/usr/bin/env node
 
+import {createConnection} from "../database/data-source";
+import { config } from 'dotenv';
+config();
 /**
  * Module dependencies.
  */
+createConnection();
 const app = require('../app');
 const debug = require('debug')('backendlabs:server');
 const http = require('http');

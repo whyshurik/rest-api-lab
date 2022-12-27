@@ -9,6 +9,7 @@ import * as recordsRouter from "./routes/records"
 const app = express();
 
 // view engine setup
+
 app.set('views', join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
@@ -16,7 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(join(__dirname, 'public')));
-``
+
 console.log(indexRouter.router)
 app.use('/', indexRouter.router)
 app.use('/users', usersRouter.router);

@@ -1,9 +1,10 @@
 import {
     BaseEntity,
     Column,
-    Entity,
+    Entity, JoinColumn, OneToMany,
     PrimaryGeneratedColumn,
 } from 'typeorm';
+import {RecordsEntity} from "./record.entity";
 
 @Entity({name: 'category'})
 export class CategoriesEntity extends BaseEntity{
@@ -13,4 +14,7 @@ export class CategoriesEntity extends BaseEntity{
     @Column({name: 'name', type: 'text'})
     name: string;
 
+    @OneToMany(() => RecordsEntity, (record) => record.category)
+    @JoinColumn()
+    record: RecordsEntity[];
 }

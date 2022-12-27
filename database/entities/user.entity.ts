@@ -1,9 +1,11 @@
 import {
     BaseEntity,
     Column,
-    Entity,
+    Entity, JoinColumn, OneToMany,
     PrimaryGeneratedColumn,
 } from 'typeorm';
+import {BalanceEntity} from "./balance.entity";
+import {RecordsEntity} from "./record.entity";
 
 @Entity({name: 'user'})
 export class UsersEntity extends BaseEntity{
@@ -13,4 +15,11 @@ export class UsersEntity extends BaseEntity{
     @Column({name: 'name', type: 'text'})
     name: string;
 
+    @OneToMany(() => BalanceEntity, (balance) => balance.user)
+    @JoinColumn()
+    balance: BalanceEntity[];
+
+    @OneToMany(() => RecordsEntity, (record) => record.user)
+    @JoinColumn()
+    record: RecordsEntity[];
 }
