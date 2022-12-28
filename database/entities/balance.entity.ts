@@ -13,7 +13,7 @@ export class BalanceEntity extends BaseEntity{
     balanceId: number;
 
     @Column({name: 'money', type: 'money'})
-    name: number;
+    money: number;
 
     @ManyToOne(() => UsersEntity, (user) => user.balance)
     @JoinColumn()
