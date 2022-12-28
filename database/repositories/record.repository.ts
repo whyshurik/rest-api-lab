@@ -11,7 +11,7 @@ type RecordData = {
 };
 
 export const RecordRepository = AppDataSource.getRepository(RecordsEntity).extend({
-    async createUser(data: RecordData){
+    async createRecord(data: RecordData){
         const {recordId, recordDate, user, category} = data;
         return await RecordsEntity.create({
             recordId: recordId,
@@ -20,11 +20,11 @@ export const RecordRepository = AppDataSource.getRepository(RecordsEntity).exten
             category: category,
         }).save();
     },
-    async removeUser(userId: number){
-        const user = await UsersEntity.findOne({
-            where: {userId: userId},
+    async removeRecord(recordId: number){
+        const record = await RecordsEntity.findOne({
+            where: {recordId: recordId},
         });
-        if (!user) return;
-        await UsersEntity.remove(user);
+        if (!record) return;
+        await RecordsEntity.remove(record);
     }
 })

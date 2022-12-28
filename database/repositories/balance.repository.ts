@@ -17,11 +17,28 @@ export const BalanceRepository = AppDataSource.getRepository(BalanceEntity).exte
             user: user,
         }).save();
     },
-    async removeUser(userId: number){
-        const user = await UsersEntity.findOne({
-            where: {userId: userId},
+    async removeBalance(balanceId: number){
+        const balance = await BalanceEntity.findOne({
+            where: {balanceId: balanceId},
         });
-        if (!user) return;
-        await UsersEntity.remove(user);
-    }
+        if (!balance) return;
+        await BalanceEntity.remove(balance);
+    },
+    async addMoney(count, balanceId: number){
+        const balance = await BalanceEntity.findOne({
+            where: {balanceId: balanceId},
+        });
+        if (!balance) return;
+        balance.money = balance.money + count;
+        await BalanceEntity.save(balance);
+    },
+    async takeMoney(count, balanceId: number){
+        const balance = await BalanceEntity.findOne({
+            where: {balanceId: balanceId},
+        });
+        if (!balance) return;
+        balance.money = balance.money - count;
+        await BalanceEntity.save(balance);
+    },
+
 })

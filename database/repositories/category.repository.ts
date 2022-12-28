@@ -1,5 +1,4 @@
 import {AppDataSource} from "../data-source";
-import {UsersEntity} from "../entities/user.entity";
 import {CategoriesEntity} from "../entities/category.entity";
 import {RecordsEntity} from "../entities/record.entity";
 
@@ -18,11 +17,11 @@ export const CategoryRepository = AppDataSource.getRepository(CategoriesEntity).
             record: record,
         }).save();
     },
-    async removeUser(userId: number){
-        const user = await UsersEntity.findOne({
-            where: {userId: userId},
+    async removeCategory(categoryId: number){
+        const category = await CategoriesEntity.findOne({
+            where: {categoryId: categoryId},
         });
-        if (!user) return;
-        await UsersEntity.remove(user);
-    }
+        if (!category) return;
+        await CategoriesEntity.remove(category);
+    },
 })
