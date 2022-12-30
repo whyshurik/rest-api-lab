@@ -16,6 +16,9 @@ export class RecordsEntity extends BaseEntity{
     @Column({name: 'date', default: new Date(), type: 'timestamp' })
     recordDate: Date;
 
+    @Column({name: 'money', type: 'money'})
+    money: number;
+
     @ManyToOne(() => UsersEntity, (user) => user.record)
     @JoinColumn()
     user: UsersEntity;

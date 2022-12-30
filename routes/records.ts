@@ -1,35 +1,41 @@
 import * as entities from "../database/entities/entities"
 import {Router} from "express"
+import {body} from "express-validator";
+import {RecordData, RecordRepository} from "../database/repositories/record.repository";
 const router:Router = Router();
 
-router.post('/addrecord', function(req, res) {
-    if (!req.body.id){
+const validations = [
+    body("recordId").exists().isInt().notEmpty(),
+    body("money").exists().isNumeric().notEmpty(),
+    body("user").exists().isInt().notEmpty(),
+    body("category").exists().isInt().notEmpty(),
+]
+
+router.post('/addrecord', validations, function(req, res) {
+    if (!req.body.recordId){
         return res.send('no id provided')
     }
-    if (!req.body.userId){
+    if (!req.body.money){
         return res.send('no user id provided')
     }
-    if (!req.body.categoryId){
+    if (!req.body.user){
         return res.send('no category id provided')
     }
-    if (!req.body.cost){
+    if (!req.body.category){
         return res.send('no cost provided')
     }
-    const obj = {...req.body, date: new Date()}
-    entities.records.add(obj)
+    const obj:RecordData = {
+        recordId: req.body.recordId,
+        recordDate: new Date(),
+        money: req.body.money,
+        user: req.body.user,
+        category: req.body.category
+    }
+    RecordRepository.createRecord(obj);
     res.send('records respond with a resource');
 });
 router.get('/', function(req, res) {
     res.send(JSON.stringify([...entities.records]));
 });
-router.get('/getuser/:userid', function(req, res) {
-    const userdata = Array.from(entities.records).filter((record:any) => record.userId === req.params.userid);
-    res.send(JSON.stringify(userdata));
-});
-router.get('/getcategory', function(req, res) {
-    const userid = req.query.userid;
-    const categoryid = req.query.categoryid;
-    const userdata = Array.from(entities.records).filter((record:any) => record.userId === userid && record.categoryId === categoryid);
-    res.send(JSON.stringify(userdata));
-});
+
 export {router}

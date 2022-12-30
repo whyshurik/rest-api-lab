@@ -25,3 +25,4 @@ export const CategoryRepository = AppDataSource.getRepository(CategoriesEntity).
         await CategoriesEntity.remove(category);
     },
 })
+export {CategoryData};

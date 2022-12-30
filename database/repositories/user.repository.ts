@@ -29,3 +29,4 @@ export const UserRepository = AppDataSource.getRepository   (UsersEntity).extend
         await UsersEntity.remove(user);
     }
 });
+export {UserData};

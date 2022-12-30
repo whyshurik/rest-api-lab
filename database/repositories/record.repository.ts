@@ -5,17 +5,20 @@ import {RecordsEntity} from "../entities/record.entity";
 
 type RecordData = {
     recordId: number;
-    recordDate: string;
+    recordDate: Date;
+    money: number;
     user: UsersEntity;
     category: CategoriesEntity;
 };
 
 export const RecordRepository = AppDataSource.getRepository(RecordsEntity).extend({
     async createRecord(data: RecordData){
-        const {recordId, recordDate, user, category} = data;
+        const {recordId, recordDate, money, user, category} = data;
+
         return await RecordsEntity.create({
             recordId: recordId,
             recordDate: recordDate,
+            money: money,
             user: user,
             category: category,
         }).save();
@@ -28,3 +31,4 @@ export const RecordRepository = AppDataSource.getRepository(RecordsEntity).exten
         await RecordsEntity.remove(record);
     }
 })
+export {RecordData};

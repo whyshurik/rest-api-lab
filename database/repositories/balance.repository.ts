@@ -42,3 +42,4 @@ export const BalanceRepository = AppDataSource.getRepository(BalanceEntity).exte
     },
 
 })
+export {BalanceData};
