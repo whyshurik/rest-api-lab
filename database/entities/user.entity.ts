@@ -16,10 +16,10 @@ export class UsersEntity extends BaseEntity{
     name: string;
 
     @OneToMany(() => BalanceEntity, (balance) => balance.user)
-    @JoinColumn()
+    @JoinColumn({name: 'fk_balanceId'})
     balance: BalanceEntity[];
 
     @OneToMany(() => RecordsEntity, (record) => record.user)
-    @JoinColumn()
+    @JoinColumn({name: 'fk_recordId'})
     record: RecordsEntity[];
 }

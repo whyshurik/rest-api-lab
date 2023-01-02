@@ -4,10 +4,10 @@ import {BalanceEntity} from "../entities/balance.entity";
 import {RecordsEntity} from "../entities/record.entity";
 
 type UserData = {
-    userId: number;
+    userId?: number;
     name: string;
-    balance: BalanceEntity[];
-    record: RecordsEntity[];
+    balance?: BalanceEntity[];
+    record?: RecordsEntity[];
 };
 
 export const UserRepository = AppDataSource.getRepository   (UsersEntity).extend({
@@ -27,6 +27,16 @@ export const UserRepository = AppDataSource.getRepository   (UsersEntity).extend
         });
         if (!user) return;
         await UsersEntity.remove(user);
+    },
+    async getAllUsers(){
+        const data = await UserRepository.find()
+        //return await AppDataSource.manager.find(UsersEntity)
+        let result = ' ';
+        for (let i of data){
+            result = result + JSON.stringify(i) + ', '
+        }
+        return result
     }
+
 });
 export {UserData};

@@ -4,7 +4,7 @@ import {CategoriesEntity} from "../entities/category.entity";
 import {RecordsEntity} from "../entities/record.entity";
 
 type RecordData = {
-    recordId: number;
+    recordId?: number;
     recordDate: Date;
     money: number;
     user: UsersEntity;
@@ -29,6 +29,15 @@ export const RecordRepository = AppDataSource.getRepository(RecordsEntity).exten
         });
         if (!record) return;
         await RecordsEntity.remove(record);
+    },
+    async getAllRecords(){
+        const data = await RecordRepository.find()
+        //return await AppDataSource.manager.find(UsersEntity)
+        let result = ' ';
+        for (let i of data){
+            result = result + JSON.stringify(i) + ', '
+        }
+        return result
     }
 })
 export {RecordData};

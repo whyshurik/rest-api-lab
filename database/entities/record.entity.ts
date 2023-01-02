@@ -20,11 +20,11 @@ export class RecordsEntity extends BaseEntity{
     money: number;
 
     @ManyToOne(() => UsersEntity, (user) => user.record)
-    @JoinColumn()
+    @JoinColumn({name: 'fk_userdId'})
     user: UsersEntity;
 
 
     @ManyToOne(() => CategoriesEntity, (category) => category.record)
-    @JoinColumn()
+    @JoinColumn({name: 'fk_categoryId'})
     category: CategoriesEntity;
 }

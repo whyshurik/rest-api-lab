@@ -5,31 +5,23 @@ import {body} from "express-validator";
 const router:Router = Router();
 
 const validations = [
-    body("categoryId").exists().isInt().notEmpty(),
     body("name").exists().isString().notEmpty(),
-    body("recordId").exists().isInt().notEmpty(),
+    body("recordId").isInt(),
 ]
 
-router.post('/addcategory', validations,function(req: { body: { categoryId: any; name: any; recordId: any }; }, res: { send: (arg0: string) => void; }) {
-    if (!req.body.categoryId){
-        return res.send('no id provided')
-    }
+router.post('/addcategory', validations,function(req: { body: { name: any; recordId: any }; }, res: { send: (arg0: string) => void; }) {
     if (!req.body.name){
         return res.send('no name provided')
     }
-    if (!req.body.recordId){
-        return res.send('no name provided')
-    }
     const obj:CategoryData = {
-        categoryId: req.body.categoryId,
         name: req.body.name,
         record: req.body.recordId,
     }
     CategoryRepository.createCategory(obj)
     res.send('categories respond with a resource');
 });
-router.get('/', function(_req: any, res: { send: (arg0: string) => void; }) {
-    res.send(JSON.stringify([...entities.categories]));
+router.get('/', async function (_req: any, res: { send: (arg0: string) => void; }) {
+    res.send(await CategoryRepository.getAllCategories());
 });
 
 router.get('/getcategory', function(req, res) {

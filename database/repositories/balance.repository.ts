@@ -3,7 +3,7 @@ import {UsersEntity} from "../entities/user.entity";
 import {BalanceEntity} from "../entities/balance.entity";
 
 type BalanceData = {
-    balanceId: number;
+    balanceId?: number;
     money: number;
     user: UsersEntity;
 };
@@ -40,6 +40,15 @@ export const BalanceRepository = AppDataSource.getRepository(BalanceEntity).exte
         balance.money = balance.money - count;
         await BalanceEntity.save(balance);
     },
+    async getAllBalances(){
+        const data = await BalanceRepository.find()
+        //return await AppDataSource.manager.find(UsersEntity)
+        let result = ' ';
+        for (let i of data){
+            result = result + JSON.stringify(i) + ', '
+        }
+        return result
+    }
 
 })
 export {BalanceData};

@@ -3,9 +3,9 @@ import {CategoriesEntity} from "../entities/category.entity";
 import {RecordsEntity} from "../entities/record.entity";
 
 type CategoryData = {
-    categoryId: number;
+    categoryId?: number;
     name: string;
-    record: RecordsEntity[];
+    record?: RecordsEntity[];
 };
 
 export const CategoryRepository = AppDataSource.getRepository(CategoriesEntity).extend({
@@ -24,5 +24,14 @@ export const CategoryRepository = AppDataSource.getRepository(CategoriesEntity).
         if (!category) return;
         await CategoriesEntity.remove(category);
     },
+    async getAllCategories(){
+        const data = await CategoryRepository.find()
+        //return await AppDataSource.manager.find(UsersEntity)
+        let result = ' ';
+        for (let i of data){
+            result = result + JSON.stringify(i) + ', '
+        }
+        return result
+    }
 })
 export {CategoryData};

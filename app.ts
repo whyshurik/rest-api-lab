@@ -6,6 +6,7 @@ import * as indexRouter from "./routes/index"
 import * as usersRouter from "./routes/users"
 import * as categoriesRouter from "./routes/categories"
 import * as recordsRouter from "./routes/records"
+import * as balancesRouter from "./routes/balances"
 const app = express();
 
 // view engine setup
@@ -23,6 +24,7 @@ app.use('/', indexRouter.router)
 app.use('/users', usersRouter.router);
 app.use('/categories', categoriesRouter.router);
 app.use('/records', recordsRouter.router);
+app.use('/balances', balancesRouter.router);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
