@@ -1,19 +1,20 @@
 import * as entities from "../database/entities/entities"
 import {Router} from "express"
 import {UserData, UserRepository} from "../database/repositories/user.repository";
-import {body} from "express-validator";
+import {body, validationResult} from "express-validator";
 const router:Router = Router();
 
 const validations = [
-    body("name").exists().isString().notEmpty(),
-    body("balance").isInt(),
-    body("record").isInt(),
+    body('name').exists().isString().notEmpty(),
+    body('balance').isInt().optional(),
+    body('record').isInt().optional()
 ]
 
 /* GET users listing. */
-router.post('/adduser', validations,function(req, res) {
-    if (!req.body.name){
-        return res.send('no name provided')
+router.post('/adduser', validations,function(req: { body: { name: string; balance: [], record: [] }; },res ) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()){
+        return res.status(400).json({errors: errors.array()})
     }
     const obj:UserData = {
         name: req.body.name,

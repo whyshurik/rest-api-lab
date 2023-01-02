@@ -29,7 +29,7 @@ export const UserRepository = AppDataSource.getRepository   (UsersEntity).extend
         await UsersEntity.remove(user);
     },
     async getAllUsers(){
-        const data = await UserRepository.find()
+        const data = await UserRepository.find({relations: ['record','balance']})
         //return await AppDataSource.manager.find(UsersEntity)
         let result = ' ';
         for (let i of data){

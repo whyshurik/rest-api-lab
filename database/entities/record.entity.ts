@@ -16,15 +16,15 @@ export class RecordsEntity extends BaseEntity{
     @Column({name: 'date', default: new Date(), type: 'timestamp' })
     recordDate: Date;
 
-    @Column({name: 'money', type: 'money'})
+    @Column({name: 'money', type: 'numeric'})
     money: number;
 
     @ManyToOne(() => UsersEntity, (user) => user.record)
-    @JoinColumn({name: 'fk_userdId'})
+    @JoinColumn()
     user: UsersEntity;
 
 
     @ManyToOne(() => CategoriesEntity, (category) => category.record)
-    @JoinColumn({name: 'fk_categoryId'})
+    @JoinColumn()
     category: CategoriesEntity;
 }

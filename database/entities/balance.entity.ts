@@ -12,11 +12,11 @@ export class BalanceEntity extends BaseEntity{
     @PrimaryGeneratedColumn()
     balanceId: number;
 
-    @Column({name: 'money', type: 'money'})
+    @Column({name: 'money', type: 'numeric'})
     money: number;
 
     @ManyToOne(() => UsersEntity, (user) => user.balance)
-    @JoinColumn({name: 'fk_userId'})
+    @JoinColumn()
     user: UsersEntity;
 
 }

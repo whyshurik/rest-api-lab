@@ -25,7 +25,7 @@ export const CategoryRepository = AppDataSource.getRepository(CategoriesEntity).
         await CategoriesEntity.remove(category);
     },
     async getAllCategories(){
-        const data = await CategoryRepository.find()
+        const data = await CategoryRepository.find({relations: ['record']})
         //return await AppDataSource.manager.find(UsersEntity)
         let result = ' ';
         for (let i of data){

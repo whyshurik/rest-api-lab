@@ -15,6 +15,6 @@ export class CategoriesEntity extends BaseEntity{
     name: string;
 
     @OneToMany(() => RecordsEntity, (record) => record.category)
-    @JoinColumn({name: 'fk_recordId'})
+    @JoinColumn()
     record: RecordsEntity[];
 }

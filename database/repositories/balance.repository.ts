@@ -41,7 +41,7 @@ export const BalanceRepository = AppDataSource.getRepository(BalanceEntity).exte
         await BalanceEntity.save(balance);
     },
     async getAllBalances(){
-        const data = await BalanceRepository.find()
+        const data = await BalanceRepository.find({relations: ['user']})
         //return await AppDataSource.manager.find(UsersEntity)
         let result = ' ';
         for (let i of data){
