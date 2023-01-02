@@ -2,6 +2,7 @@ import {AppDataSource} from "../data-source";
 import {UsersEntity} from "../entities/user.entity";
 import {CategoriesEntity} from "../entities/category.entity";
 import {RecordsEntity} from "../entities/record.entity";
+import {BalanceRepository} from "./balance.repository";
 
 type RecordData = {
     recordId?: number;
@@ -14,7 +15,10 @@ type RecordData = {
 export const RecordRepository = AppDataSource.getRepository(RecordsEntity).extend({
     async createRecord(data: RecordData){
         const {recordId, recordDate, money, user, category} = data;
-
+        const balanceEnt = await BalanceRepository.findOne({
+            where: {user: {userId: user.userId}},relations:['user']
+        })
+        await BalanceRepository.update({user: { userId: balanceEnt.user.userId}}, {money: balanceEnt.money - money})
         return await RecordsEntity.create({
             recordId: recordId,
             recordDate: recordDate,
@@ -31,7 +35,7 @@ export const RecordRepository = AppDataSource.getRepository(RecordsEntity).exten
         await RecordsEntity.remove(record);
     },
     async getAllRecords(){
-        const data = await RecordRepository.find()
+        const data = await RecordRepository.find({relations: ['user','category']})
         //return await AppDataSource.manager.find(UsersEntity)
         let result = ' ';
         for (let i of data){

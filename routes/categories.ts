@@ -1,17 +1,18 @@
 import * as entities from "../database/entities/entities"
 import {Router} from "express"
 import {CategoryData, CategoryRepository} from "../database/repositories/category.repository";
-import {body} from "express-validator";
+import {body, validationResult} from "express-validator";
 const router:Router = Router();
 
 const validations = [
     body("name").exists().isString().notEmpty(),
-    body("recordId").isInt(),
+    body("recordId").isInt().optional()
 ]
 
-router.post('/addcategory', validations,function(req: { body: { name: any; recordId: any }; }, res: { send: (arg0: string) => void; }) {
-    if (!req.body.name){
-        return res.send('no name provided')
+router.post('/addcategory', validations,function(req: { body: { name: string; recordId: [] }; }, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()){
+        return res.status(400).json({errors: errors.array()})
     }
     const obj:CategoryData = {
         name: req.body.name,

@@ -1,23 +1,20 @@
 import {Router} from "express"
-import {body} from "express-validator";
+import {body, validationResult} from "express-validator";
 import {RecordData, RecordRepository} from "../database/repositories/record.repository";
+import {UsersEntity} from "../database/entities/user.entity";
+import {CategoriesEntity} from "../database/entities/category.entity";
 const router:Router = Router();
 
 const validations = [
     body("money").exists().isNumeric().notEmpty(),
     body("user").exists().isInt().notEmpty(),
-    body("category").exists().isInt().notEmpty(),
+    body("category").exists().isInt().notEmpty()
 ]
 
-router.post('/addrecord', validations, function(req, res) {
-    if (!req.body.money){
-        return res.send('no money id provided')
-    }
-    if (!req.body.user){
-        return res.send('no user id provided')
-    }
-    if (!req.body.category){
-        return res.send('no category provided')
+router.post('/addrecord', validations, function(req: { body: { money: any; user: UsersEntity, category: CategoriesEntity }; }, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()){
+        return res.status(400).json({errors: errors.array()})
     }
     const obj:RecordData = {
         recordDate: new Date(),
